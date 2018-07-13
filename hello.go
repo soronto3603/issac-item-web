@@ -7,7 +7,6 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -95,6 +94,7 @@ func main() {
 	http.HandleFunc("/save/", saveHandler)
 	http.HandleFunc("/admin/", adminHandler)
 	http.HandleFunc("/mysql/", mysqlHandler)
+	fmt.Printf("Server Start:8080")
 	log.Fatal(http.ListenAndServe(":8080", nil))
 	fmt.Printf("Server Start:8080")
 }
