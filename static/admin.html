@@ -1,0 +1,47 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="/static/stylesheets/main.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <div class=side-menu>
+            <div class=margin-top></div>
+            <div class=profile>
+                <img class=image src="https://66.media.tumblr.com/avatar_faa95867d2b3_128.png" />
+            </div>
+            <center>
+                <div class=line></div>
+            </center>
+            
+            <div class=item onclick="move_page('user')">
+                USER
+            </div>
+            <div class=item onclick="move_page('item')">
+                ITEM
+            </div>
+            <div class=item onclick="">
+                LOGOUT
+            </div>
+        </div>
+        <div class=contents id=contents>
+            <iframe id=iframe src="./sdf.html"></iframe>
+        </div>
+        <script>
+            function move_page(str){
+                document.getElementById('iframe').src=`./${str}.html`;
+            }
+            function resize_cycle(){
+                var w=$('#contents').width();
+                var resizewidth=$(window).width()-150;
+                $('#contents').css("width",`${resizewidth}px`);
+            }
+            window.onload=()=>{
+                resize_cycle();
+            }
+            window.onresize=()=>{
+                // setTimeout(resize_cycle,1000)
+                resize_cycle();
+            }
+        </script>
+    </body>
+</html>
