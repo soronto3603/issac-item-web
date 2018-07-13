@@ -1,12 +1,13 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"html/template"
 	"io/ioutil"
 	"log"
 	"net/http"
-	"database/sql"
+
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -55,7 +56,7 @@ func editHandler(w http.ResponseWriter, r *http.Request) {
 func renderTemplate(w http.ResponseWriter, tmpl string, p *Page) {
 	t, err := template.ParseFiles(tmpl + ".html")
 	if err != nil {
-	http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	err = t.Execute(w, p)
@@ -77,8 +78,10 @@ func adminHandler(w http.ResponseWriter, r *http.Request) {
 	t.Execute(w, p)
 }
 func mysqlHandler(w http.ResponseWriter, r *http.Request) {
-	db,err:=sql.Open("mysql","root:2262552a@/issac")
-	if err!=nil{
+	fmt.Printf("Server] mysql cheking start:)")
+	db, err := sql.Open("mysql", "root:2262552a@/issac")
+	if err != nil {
+		fmt.Printf("Server] mysql load fail")
 		panic(err.Error())
 	}
 	defer db.Close()
@@ -91,6 +94,7 @@ func main() {
 	http.HandleFunc("/edit/", editHandler)
 	http.HandleFunc("/save/", saveHandler)
 	http.HandleFunc("/admin/", adminHandler)
-	http.HandleFunc("/mysql/",mysqlHandler)
+	http.HandleFunc("/mysql/", mysqlHandler)
 	log.Fatal(http.ListenAndServe(":8080", nil))
+	fmt.Printf("Server Start:8080")
 }
