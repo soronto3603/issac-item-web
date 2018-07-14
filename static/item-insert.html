@@ -3,6 +3,7 @@
         <link rel="stylesheet" href="/static/stylesheets/user.css">
         <link rel="stylesheet" href="/static/stylesheets/user-item.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="./javascript/config.js"></script>
     </head>
     <body>
         <center>
@@ -52,6 +53,9 @@
             </div>
         </center>
         <script>
+            window.onload=()=>{
+                console.log("[item-insert]"+target);
+            }
             function insert_data(){
                 let item_id=document.getElementById('item-id').value;
                 let name=document.getElementById('name').value;
@@ -62,7 +66,6 @@
                 let effects=document.getElementById('effects').value;
                 let synergies=document.getElementById('synergies').value;
                 
-                let target="http://localhost:8080";
                 $.post(target+"/issac/insert/",{
                     itme_id:item_id,
                     name:name,
