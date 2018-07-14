@@ -1,0 +1,24 @@
+.data-form .tag{
+    width:80%;
+    text-align:left;
+    padding-top:15px;
+}
+.data-form .input{
+    width:80%;
+}
+.data-form input{
+    width:100%;
+    height:inherit;
+    border:none;
+    border-bottom:1px solid #e9e9e9;
+    padding:left;
+}
+.button-bar .insert{
+    background-color:#3f51b5;
+    color:white;
+    border-radius:5px;
+    width:30px;
+    font-size:15px;
+    padding:3px;
+    text-align:center;
+}

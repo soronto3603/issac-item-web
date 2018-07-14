@@ -1,0 +1,84 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="/static/stylesheets/user.css">
+        <link rel="stylesheet" href="/static/stylesheets/user-item.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <center>
+            <div class=title>ITEM Insert</div>
+        </center>
+        <center>
+            <div class=button-bar>
+                    <div class=insert onclick="insert_data()">등록완료</div>
+            </div>
+            <div class=data-form>
+                <div class=tag>Item-ID</div>
+                <div class=input>
+                    <input id=item-id type=text/>
+                </div>
+                <div class=tag>NAME</div>
+                <div class=input>
+                    <input id=name type=text/>
+                </div>
+                <div class=tag>DESCRIPTION</div>
+                <div class=input>
+                    <input id=description type=text/>
+                </div>
+                <div class=tag>IMG</div>
+                <div class=input>
+                    <input id=img type=text/>
+                </div>
+                <div class=tag>Battery</div>
+                <div class=input>
+                    <input id=battery type=text/>
+                </div>
+                <div class=tag>quote</div>
+                <div class=input>
+                    <input id=quote type=text/>
+                </div>
+                <div class=tag>effects</div>
+                <div class=input>
+                    <input id=effects type=text/>
+                </div>
+                <div class=tag>notes</div>
+                <div class=input>
+                    <input id=notes type=text/>
+                </div>
+                <div class=tag>synergies</div>
+                <div class=input>
+                    <input id=synergies type=text/>
+                </div>
+            </div>
+        </center>
+        <script>
+            function insert_data(){
+                let item_id=document.getElementById('item-id').value;
+                let name=document.getElementById('name').value;
+                let description=document.getElementById('description').value;
+                let img=document.getElementById('img').value;
+                let battery=document.getElementById('battery').value;
+                let quote=document.getElementById('quote').value;
+                let effects=document.getElementById('effects').value;
+                let synergies=document.getElementById('synergies').value;
+                
+                let target="http://localhost:8080";
+                $.post(target+"/issac/insert/",{
+                    itme_id:item_id,
+                    name:name,
+                    description:description,
+                    img:img,
+                    battry:battery,
+                    quote:quote,
+                    effects:effects,
+                    synergies:synergies}).done((r)=>{
+                        console.log("[POST]Data-form request complete");
+                        move_my_page("item");
+                    });
+            }
+            function move_my_page(str){
+                window.parent.postMessage(`{"title":"move_page","move_page":"${str}"}`,"*")
+            }
+        </script>
+    </body>
+</html>

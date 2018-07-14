@@ -24,7 +24,7 @@
             </div>
         </div>
         <div class=contents id=contents>
-            <iframe id=iframe src="./sdf.html"></iframe>
+            <iframe id=iframe src="./user.html"></iframe>
         </div>
         <script>
             function move_page(str){
@@ -41,6 +41,16 @@
             window.onresize=()=>{
                 // setTimeout(resize_cycle,1000)
                 resize_cycle();
+            }
+            window.onmessage=(e)=>{
+                if(e.data==""){
+
+                }else{
+                    var jsondata=JSON.parse(e.data);
+                    if(jsondata.title=="move_page"){
+                        move_page(jsondata.move_page)
+                    }
+                }
             }
         </script>
     </body>

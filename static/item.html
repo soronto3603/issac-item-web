@@ -8,7 +8,7 @@
         </center>
         <center>
             <div class=button-bar>
-                
+                <div class=insert onclick="move_my_page('item-insert')">등록</div>
             </div>
             <table>
                 <tr>
@@ -38,6 +38,13 @@
                
             </table>
         </center>
-        
+        <script>
+            function move_page(str){
+                document.getElementById('iframe').src=`./${str}.html`;
+            }
+            function move_my_page(str){
+                window.parent.postMessage(`{"title":"move_page","move_page":"${str}"}`,"*")
+            }
+        </script>
     </body>
 </html>

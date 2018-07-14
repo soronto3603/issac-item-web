@@ -7,6 +7,9 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"net/url"
+	"strings"
+
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -73,17 +76,43 @@ func saveHandler(w http.ResponseWriter, r *http.Request) {
 func adminHandler(w http.ResponseWriter, r *http.Request) {
 	title := r.URL.Path[len("/admin/"):]
 	p, _ := loadPage(title)
-	t, _ := template.New("").Delims("[[", "]]").ParseFiles("./static/templates/admin.html")
+	t, _ := template.New("").ParseFiles("./static/templates/admin.html")
 	t.Execute(w, p)
 }
-func mysqlHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Printf("Server] mysql cheking start:)")
+func issacInsertHandler(w http.ResponseWriter, r *http.Request) {
+	r.ParseForm()
+	pf := r.PostForm
+
+	// fmt.Println("[Server] ", pf["name"])
+	fmt.Println("[Server] Receive data <=", r.PostForm)
+
+	fmt.Printf("Server] mysql cheking start:)\n")
 	db, err := sql.Open("mysql", "root:2262552a@/issac")
 	if err != nil {
-		fmt.Printf("Server] mysql load fail")
+		fmt.Printf("Server] mysql load fail\n")
 		panic(err.Error())
 	}
 	defer db.Close()
+
+	stmtIns, err := db.Prepare("INSERT INTO issac_item(no,id,name,description,img,battery,quote,effects,notes,synergies) VALUES(NULL,?,?,?,?,?,?,?,?,?)")
+	if err != nil {
+		panic(err.Error())
+	}
+	defer stmtIns.Close()
+	fmt.Printf("Server] Data Insert\n")
+
+	// 기괴하고 해괴망측한 고랭
+	// fmt.Println(reflect.TypeOf(pf["name"]))==> []string
+
+	_, err = stmtIns.Exec(1, mapStringParse(pf, "name"), mapStringParse(pf, "description"), mapStringParse(pf, "img"), mapStringParse(pf, "battery"), mapStringParse(pf, "quote"), mapStringParse(pf, "effects"), mapStringParse(pf, "notes"), mapStringParse(pf, "synergies"))
+	if err != nil {
+		panic(err.Error())
+	}
+}
+
+func mapStringParse(m url.Values, s string) string {
+	fuckingString := strings.Join(m[s], "")
+	return fuckingString
 }
 
 func main() {
@@ -93,8 +122,7 @@ func main() {
 	http.HandleFunc("/edit/", editHandler)
 	http.HandleFunc("/save/", saveHandler)
 	http.HandleFunc("/admin/", adminHandler)
-	http.HandleFunc("/mysql/", mysqlHandler)
-	fmt.Printf("Server Start:8080")
+	http.HandleFunc("/issac/insert/", issacInsertHandler)
+	fmt.Printf("Server Start:8080\n")
 	log.Fatal(http.ListenAndServe(":8080", nil))
-	fmt.Printf("Server Start:8080")
 }
