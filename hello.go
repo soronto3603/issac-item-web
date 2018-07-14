@@ -18,6 +18,10 @@ type Page struct {
 	Body  []byte
 }
 
+// const{
+
+// }
+
 func (p *Page) save() error {
 	filename := p.Title + ".html"
 	return ioutil.WriteFile(filename, p.Body, 0600)
@@ -87,7 +91,7 @@ func issacInsertHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("[Server] Receive data <=", r.PostForm)
 
 	fmt.Printf("Server] mysql cheking start:)\n")
-	db, err := sql.Open("mysql", "root:2262552a@/issac")
+	db, err := sql.Open("mysql", "soronto:2262552a@/issac")
 	if err != nil {
 		fmt.Printf("Server] mysql load fail\n")
 		panic(err.Error())
